@@ -7,5 +7,5 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (jinsei/start-game "Jin")
+  (println (jinsei/init-random-world 5 5 2))
 )
