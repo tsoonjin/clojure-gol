@@ -7,5 +7,9 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println (jinsei/init-random-world 5 5 2))
+  (let [
+    world (jinsei/init-random-world 5 5 2)
+  ]
+    (println (jinsei/update-world world 3 3 10))
+  )
 )
