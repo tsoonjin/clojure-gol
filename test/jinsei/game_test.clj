@@ -3,7 +3,7 @@
    [jinsei.game :as game]
    [clojure.test :refer [deftest is]]))
 
-(def local-grid [[1 1 1] [1 0 1] [0 0 0]])
+(def local-grid [[1 1 1] [1 0 1] [0 1 0]])
 
-(deftest get-cell-from-grid
-  (is (= 1 (game/grid->cell local-grid 1 1))))
+(deftest dead-cell-should-be-revived
+  (is (= [[1 0 1] [1 0 1] [0 1 0]] (game/evolve-grid local-grid))))

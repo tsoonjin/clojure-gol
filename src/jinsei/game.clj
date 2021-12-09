@@ -14,13 +14,27 @@
   (let [new_col (assoc (get grid row) col value)]
     (assoc grid row new_col)))
 
-(defn grid->cell [grid row col]
+(defn grid->cell [grid col row]
   (let [sublist (or (get grid row) [])]
     (or (get sublist col) 0)))
 
-(defn get-neighbors [grid cell]
+(defn evolve-cell [grid cell]
   (let [[x y] cell
-        offsets ((-1 -1) (0 -1) (1 -1) (-1 0)  (1 0) (-1 1) (0 1) (1 1))]))
+        cell-value (grid->cell grid x y)
+        offsets (list (list (- x 1) (- y 1)) (list x (- y  1)) (list (+ x 1) (- y 1)) (list (- x 1) y) (list (+ x 1) y) (list (- x 1) (+ y 1)) (list x (+ y 1)) (list (+ x 1) (+ y 1)))
+        neighbor-sum (apply + (map #(apply grid->cell grid %) offsets))]
+    (do
+      (cond
+        (and (= cell-value 0) (= neighbor-sum 3)) 1
+        (and (= cell-value 1) (or (< neighbor-sum 2) (> neighbor-sum 3))) 0
+        :else cell-value))))
+
+(defn evolve-grid [grid]
+  (let [row (count grid)
+        col (count (get grid 0))]
+    (vec (for [i (range 0 row)]
+           (vec (for [j (range 0 col)]
+                  (evolve-cell grid (list j i))))))))
 
 (defn start-game [name]
   (println "Start game" name))
